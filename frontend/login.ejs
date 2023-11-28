@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Digi-locker</title>
+
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #e4ecf2;
+        }
+        .login-text{
+            font-weight: 700;
+            font-size: 26px;
+        }
+        .btn-login{
+            border: 1px solid #ff6e54;
+            background-color: #ff6e54;
+            color: #fff;
+            font-weight: 500;
+        }
+        .btn-login:hover{
+            border: 1px solid #ff5a3c;
+            background-color: #ff5a3c;
+            color: #fff;
+        }
+        .btn-social{
+            border: 1px solid #ff6e54;
+            font-weight: 500;
+        }
+        .btn-social:hover{
+            border: 1px solid #ff5a3c;
+            background-color: #ff5a3c;
+            color: #fff;
+        }
+        .alert
+        {
+            padding: 6px 5px;
+        }
+    </style>
+
+  </head>
+  <body>
+
+    <!-- Header Start -->
+    <%- include('partials/header.ejs')%>
+    <!-- Header End -->
+
+
+    <!--- breadcrumb Section Start ---->
+    
+    <div class="breadcrumb-section" style="background-color:rgb(48, 115, 138);">
+        <nav aria-label="breadcrumb">
+          <h3>Login</h3>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Login</li>
+          </ol>
+        </nav>
+    </div> 
+    
+    <!--- breadcrumb Section End -->
+
+
+    <!--- Contact Section Start ---->
+      <div class="container pt-50 pb-50">
+          <div class="row d-flex justify-content-center">
+              <div class="col-lg-5">
+                <div class="card py-5 px-5 contact-box">
+                    <div class="pb-4">
+                        <h4 class="text-center text-uppercase login-text">Login</h4>
+                    </div>
+                    <div class="card-body">
+                        
+                        <% if(message){ %>
+                            <div class="alert alert-success"><%= message.message %></div>
+                        <% } %>
+
+
+                        <% if(typeof errors!= 'undefined'){ %>
+                            <% errors.forEach( error => { %>
+                              <div class="alert alert-warning"><%= error.msg %></div>
+                            <% }) %>
+                        <% } %> 
+
+                        <% if(typeof success!= 'undefined'){ %> 
+                            <div class="alert alert-success"><%= success %> </div>
+                        <% } %> 
+
+                        <% if(typeof error_msg!= 'undefined'){ %> 
+                            <div class="alert alert-warning"><%= error_msg %> </div>
+                        <% } %>
+
+                        <form action="#" method="POST" name="Form"  onsubmit="return contactvalidation()" autocomplete="off">
+                          <div class="row">
+                              <div class="col-lg-12">
+                                  <div class="">
+                                    <input type="text" class="form-control" name="email" placeholder="Enter Email Address">
+                                    <span class="text-danger px-3 py-1 fst-normal" id="emailErr"></span>
+                                  </div>
+                              </div>
+
+                              <div class="col-lg-12">
+                                  <div class="mb-1">
+                                    <input type="password" class="form-control" name="password" placeholder="Enter Password">
+                                    <span class="text-danger px-3 py-1 fst-normal" id="passErr"></span>
+                                  </div>
+                              </div>
+                              <p class="d-flex justify-content-end mb-3"><a href="/forget" class="px-2"><u>Forget Password</u></a></p>
+                              <div class="mb-3">
+                                
+                                <button type="submit" class="btn btn-login" style="width: 100%;" autofocus >Login Now </button>
+                              </div>
+                              <p class="text-center">Not a member? <a href="/register" class="px-2"><u>Sign Up Free</u></a></p>
+
+                              
+                              
+
+                          </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
+          </div>
+          
+      </div>
+    <!--- Contact Section End ---->
+    <!--- breadcrumb Section Start ---->
+    
+    <div class="breadcrumb-section" style="background-color:rgb(48, 115, 138);">
+        
+    </div> 
+    
+    <!--- breadcrumb Section End -->
+
+    <!-- Footer Section --->
+    <%- include('partials/footer.ejs')%>
+    <!-- Footer Section --->
+
+
+    <!-- Scripts -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+
+        function contactvalidation()
+        {
+            let email = document.Form.email.value;
+            let password = document.Form.password.value;
+
+            let emailErr = passErr  =  true;
+
+
+            if(password == "")
+            {
+                document.getElementById('passErr').innerHTML = "* Please Enter Password";
+            }
+            else
+            {
+                document.getElementById('passErr').innerHTML = "";
+                passErr = false;
+                
+            }
+
+            if(email == "")
+            {
+                document.getElementById('emailErr').innerHTML = "* Please Enter Email Address";
+            }
+            else
+            {
+                var regex = /^\S+@\S+\.\S+$/;
+                if(regex.test(email) === false)
+                {
+                    document.getElementById('emailErr').innerHTML = "* Please Enter Valid Email";
+                } 
+                else
+                {
+                    document.getElementById('emailErr').innerHTML = "";
+                    emailErr = false;
+                }
+            }
+
+  
+            if((emailErr || passErr ) == true)
+            {
+                return false;
+                alert('invalid user name/password')
+            }
+            else{
+                return ;
+                alert('Login Successfully!')
+            }
+
+        }
+
+        function profile() {
+            window.location.href = "/profile";
+        }
+    </script>
+
+
+  </body>
+</html>

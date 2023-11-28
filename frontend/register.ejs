@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DigiLocker</title>
+
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #e4ecf2;
+        }
+        .login-text{
+            font-weight: 700;
+            font-size: 26px;
+        }
+        .btn-login{
+            border: 1px solid #ff6e54;
+            background-color: #ff6e54;
+            color: #fff;
+            font-weight: 500;
+        }
+        .btn-login:hover{
+            border: 1px solid #ff5a3c;
+            background-color: #ff5a3c;
+            color: #fff;
+        }
+        .btn-social{
+            border: 1px solid #ff6e54;
+            font-weight: 500;
+        }
+        .btn-social:hover{
+            border: 1px solid #ff5a3c;
+            background-color: #ff5a3c;
+            color: #fff;
+        }
+        .alert{
+            padding: 6px 5px;
+          }
+          .error-msg{
+            padding: 2px 2px;
+            width:100%;
+            display: block;
+            margin-bottom: 4px;
+          }
+    </style>
+
+  </head>
+  <body>
+
+    <!-- Header Start -->
+    <%- include('partials/header.ejs')%>
+    <!-- Header End -->
+
+
+    <!--- breadcrumb Section Start ---->
+    
+    <div class="breadcrumb-section" style="background-color:rgb(48, 115, 138);">
+        <nav aria-label="breadcrumb">
+          <h3>Register</h3>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Register</li>
+          </ol>
+        </nav>
+    </div> 
+    
+    <!--- breadcrumb Section End -->
+
+
+    <!--- Contact Section Start ---->
+      <div class="container pt-50 pb-50">
+          <div class="row d-flex justify-content-center">
+              <div class="col-lg-5">
+                <div class="card py-5 px-4 contact-box">
+                    <div class="pb-4">
+                        <h4 class="text-center text-uppercase login-text">Register</h4>
+                    </div>
+                    <div class="card-body">
+      
+                        <% if(typeof errors!= 'undefined'){ %>
+                                <% errors.forEach( error => { %>
+                            <span class="alert alert-warning error-msg"><%= error.msg %></span> 
+                            <% }) %>
+                        <% } %>
+
+                        <% if(typeof success!= 'undefined'){ %> 
+                            <div class="alert alert-success"><%= success %> </div>
+                        <% } %> 
+
+                        <% if(typeof error_msg!= 'undefined'){ %> 
+                            <div class="alert alert-warning"><%= error_msg %> </div>
+                        <% } %>
+      
+                        <form action="/register" method="POST" name="Form" onsubmit="return contactvalidation()">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                    <input type="text" class="form-control" name="cname" placeholder="Enter your Name">
+                                    <span class="text-danger px-3 py-1 fst-normal" id="nameErr"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                    <input type="text" class="form-control" name="email" placeholder="Enter your Email">
+                                    <span class="text-danger px-3 py-1 fst-normal" id="emailErr"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                    <input type="text" class="form-control" name="phone" placeholder="Enter your Phone">
+                                    <span class="text-danger px-3 py-1 fst-normal" id="phoneErr"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <input type="password" class="form-control" name="password" placeholder="Enter Password">
+                                        <span class="text-danger px-3 py-1 fst-normal" id="passErr"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                    <input type="button" class="form-control" name="meta" value="Connect With MetaMask Wallet"  onclick='Connect()'> 
+                                    <span class="text-danger px-3 py-1 fst-normal" id="metaErr"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                  <div class="mb-3">
+                                  <input type="text" class="form-control" name="wallet" placeholder="Enter Your MetaMask ID"> 
+                                  <span class="text-danger px-3 py-1 fst-normal" id="walletErr"></span>
+                                  </div>
+                              </div>
+
+                                <div class="mb-4">
+                                    <!-- <button class="default-btn-1">Get a Free Service</button> -->
+                                    <button type="submit" class="btn btn-login" style="width: 100%;">Register Now</button>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <p class="d-flex justify-content-start">Already Member?</p>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <p class="d-flex justify-content-end">Go To  <a href="/login" class="px-2"><u>Sign In</u></a></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
+          </div>
+          
+      </div>
+    <!--- Contact Section End ---->
+
+     <!--- breadcrumb Section Start ---->
+    
+     <div class="breadcrumb-section" style="background-color:rgb(48, 115, 138);">
+        
+     </div> 
+     
+     <!--- breadcrumb Section End -->
+
+    <!-- Footer Section --->
+    <%- include('partials/footer.ejs')%>
+    <!-- Footer Section --->
+
+
+    <!-- Scripts -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+
+        function contactvalidation()
+        {
+            let name = document.Form.cname.value;
+            let email = document.Form.email.value;
+            let phone = document.Form.phone.value;
+            let wallet = document.Form.wallet.value;
+            let password = document.Form.password.value;
+
+            let nameErr = emailErr = passErr = phoneErr = walletErr = metaErr = true;
+
+            if(name == "")
+            {
+                document.getElementById('nameErr').innerHTML = "* Please Enter Full Name";
+            }
+            else
+            {
+                var regex = /^[a-zA-Z\s]+$/;                
+                if(regex.test(name) === false)
+                {
+                    document.getElementById('nameErr').innerHTML = "* Only Characters Allow";
+                } 
+                else
+                {
+                    document.getElementById('nameErr').innerHTML = "";
+                    nameErr = false;      
+                }
+            }
+
+            if(phone == "")
+            {
+                document.getElementById('phoneErr').innerHTML = "* Please Enter Mobile Number";
+            }
+            else
+            {
+                var regex = /^[0-9]\d{9}$/;
+                if(regex.test(phone) === false)
+                {
+                    document.getElementById('phoneErr').innerHTML = "* Please Enter Valid 10 Digit Mobile Number";
+                } 
+                else
+                {
+                    document.getElementById('phoneErr').innerHTML = "";
+                    phoneErr = false;
+                }
+            }
+
+            if(password == "")
+            {
+                document.getElementById('passErr').innerHTML = "* Please Enter Password";
+            }
+            else
+            {
+                if(password.length < 5)
+                {
+                    document.getElementById('passErr').innerHTML = "* Password Atleast 5 Character";
+                } 
+                else
+                {
+                    document.getElementById('passErr').innerHTML = "";
+                    passErr = false;
+                }
+            }
+            if(wallet == "")
+            {
+                document.getElementById('walletErr').innerHTML = "* Please Enter the Wallet Address";
+            }
+            else
+            {
+                    document.getElementById('walletErr').innerHTML = "";
+                    walletErr = false;
+                }
+            
+
+            if(email == "")
+            {
+                document.getElementById('emailErr').innerHTML = "* Please Enter Email Address";
+            }
+            else
+            {
+                var regex = /^\S+@\S+\.\S+$/;
+                if(regex.test(email) === false)
+                {
+                    document.getElementById('emailErr').innerHTML = "* Please Enter Valid Email";
+                } 
+                else
+                {
+                    document.getElementById('emailErr').innerHTML = "";
+                    emailErr = false;
+                }
+            }
+            if(meta == "")
+            {
+                document.getElementById('metaErr').innerHTML = "* Please Connect the MetaMask";
+            }
+            else
+            {
+                    document.getElementById('metaErr').innerHTML = "";
+                    metaErr = false;
+                }
+  
+            if((emailErr || passErr || nameErr || phoneErr || walletErr || metaErr ) == true)
+            {
+                return false;
+            }
+
+        }
+
+    </script>
+<script type="text/javascript">
+    
+   
+    var web3
+    async function Connect()
+    {
+        if (typeof window != "undefined" && typeof window.ethereum != "undefined") {
+      try {
+        /* MetaMask is installed */
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        setWalletAddress(accounts[0]);
+        console.log(accounts[0]);
+      } catch (err) {
+        console.error(err.message);
+      }
+    } else {
+      /* MetaMask is not installed */
+      console.log("Please install MetaMask");
+    }
+  };
+
+  const getCurrentWalletConnected = async () => {
+    if (typeof window != "undefined" && typeof window.ethereum != "undefined") {
+      try {
+        const accounts = await window.ethereum.request({
+          method: "eth_accounts",
+        });
+        if (accounts.length > 0) {
+          setWalletAddress(accounts[0]);
+          console.log(accounts[0]);
+        } else {
+          console.log("Connect to MetaMask using the Connect button");
+        }
+      } catch (err) {
+        console.error(err.message);
+      }
+    } else {
+      /* MetaMask is not installed */
+      console.log("Please install MetaMask");
+    }
+  };
+
+  const addWalletListener = async () => {
+    if (typeof window != "undefined" && typeof window.ethereum != "undefined") {
+      window.ethereum.on("accountsChanged", (accounts) => {
+        setWalletAddress(accounts[0]);
+        console.log(accounts[0]);
+      });
+    } else {
+      /* MetaMask is not installed */
+      setWalletAddress("");
+      console.log("Please install MetaMask");
+    }
+  };
+</script>
+  </body>
+</html>

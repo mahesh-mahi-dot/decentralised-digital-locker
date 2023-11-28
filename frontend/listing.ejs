@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Digi-Locker</title>
+
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+
+  </head>
+  <body>
+
+    <!-- Header Start -->
+    <%- include('partials/header.ejs')%>
+    <!-- Header End -->
+
+
+    <!--- breadcrumb Section Start ---->
+    
+    <div class="breadcrumb-section" style="background-color:rgb(48, 115, 138);">
+        <nav aria-label="breadcrumb">
+          <h3>Add Your's Document</h3>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/profile">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add Document</li>
+          </ol>
+        </nav>
+    </div> 
+    
+    <!--- breadcrumb Section End -->
+
+    <!--- Listing Section Start -->
+ 
+      <div class="pt-50 pb-50">
+        <div class="container">
+            <div class="row">
+
+                <% if(message){ %>
+                    <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+                        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <strong><%= message.message %></strong>
+                    </div>
+                <% } %>
+
+                <form action="/listing" enctype="multipart/form-data"  method="POST" name="Form" onsubmit="return checkvalidation()">
+
+                    <input type="hidden" name="userId" value ="<%= userdata._id %>"
+
+                    <h1 class="title-4"><b>Document Informations</b></h1>
+                    <hr/>
+                    <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Document</label>
+                            <select class="form-select" name="category">
+                                <option value="">Select Category</option>
+                                <% data.forEach((row, index) => { %>
+                                    <option value="<%= row.cname %>"><%= row.cname %></option>
+                                <% }) %>                               
+                            </select>
+                            <p class="text-danger px-3 py-1" id="categoryErr"></p>
+                          </div>
+                      </div>
+                    </div>
+      
+                    <hr/>
+                    <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Document number</label>
+                            <input type="text" class="form-control" name="docno" placeholder="Document-number">
+                            <p class="text-danger px-3 py-1" id="docnoErr"></p>
+                          </div>
+                      </div>
+                    <hr/>
+                    
+                    <div class="row">
+                      <div class="col-lg-6">
+                          <div class="mb-3">
+                            <label class="form-label">Document file</label>
+                            <input type="file" class="form-control" name="image" placeholder="Enter Address">
+                            <p class="text-danger px-3 py-1" id="imageErr"></p>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="text-left mt-5">
+                        <button class="default-btn-1">Upload</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!--- Listing Section End -->
+
+    <!-- Footer Section --->
+    <%- include('partials/footer.ejs')%>
+    <!-- Footer Section --->
+
+
+    <!-- Scripts -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+    <script type="text/javascript">
+
+        // validation
+        function checkvalidation()
+        {
+
+            let category = document.Form.category.value;
+            let docno = document.Form.docno.value;
+            let image = document.Form.image.value;
+
+            let categoryErr = docnoErr = imageErr = true;
+
+            if(category == "")
+            {
+                document.getElementById('categoryErr').innerHTML = "* Please Choose the Category";
+            }
+            else
+            {
+                document.getElementById('categoryErr').innerHTML = "";
+                categoryErr = false;
+                       
+            }
+
+            if(docno == "")
+            {
+                document.getElementById('docnoErr').innerHTML = "* Please Enter Document Number";
+            }
+            else
+            {
+                document.getElementById('docnoErr').innerHTML = "";
+                docnoErr = false;
+            }
+
+            
+            if(image == "")
+            {
+                document.getElementById('imageErr').innerHTML = "* Please Select Image";
+            }
+            else
+            {
+                document.getElementById('imageErr').innerHTML = "";
+                imageErr = false;
+
+            }
+
+
+            if((categoryErr || docnoErr ||  imageErr) == true)
+            {
+                return false;
+            }
+        }
+    </script>
+  </body>
+</html>
